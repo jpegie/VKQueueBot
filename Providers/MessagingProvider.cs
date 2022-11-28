@@ -1,5 +1,4 @@
-﻿using System.Net.Sockets;
-using VK_QueueBot.Data;
+﻿using VK_QueueBot.Data;
 using VK_QueueBot.Enums;
 using VK_QueueBot.Extensions;
 using VkNet;
