@@ -1,4 +1,5 @@
-﻿using VK_QueueBot.Data;
+﻿using System.Net.Sockets;
+using VK_QueueBot.Data;
 using VK_QueueBot.Enums;
 using VK_QueueBot.Extensions;
 using VkNet;
@@ -12,17 +13,23 @@ public static class MessagingProvider
     public static VkApi Api { get; set; }
     public static List<Message> GetCommandMessages()
     {
-        var server = Api.Groups.GetLongPollServer(Consts.BotGroupId);
-
-        var pollHistory = Api.Groups.GetBotsLongPollHistory(new BotsLongPollHistoryParams
-        {
-            Server = server.Server,
-            Ts = server.Ts,
-            Key = server.Key,
-            Wait = Consts.WaitTime
-        });
-
         var messages = new List<Message>();
+        var server = Api.Groups.GetLongPollServer(Consts.BotGroupId);
+        var pollHistory = new BotsLongPollHistoryResponse();
+        try
+        {
+            pollHistory = Api.Groups.GetBotsLongPollHistory(new BotsLongPollHistoryParams
+            {
+                Server = server.Server,
+                Ts = server.Ts,
+                Key = server.Key,
+                Wait = Consts.WaitTime
+            });
+        }
+        catch(TaskCanceledException ex)
+        {
+            return messages;
+        }
 
         if (pollHistory?.Updates != null && pollHistory.Updates.Count() != 0)
         {
