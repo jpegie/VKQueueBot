@@ -26,7 +26,7 @@ public static class MessagingProvider
                 Wait = Consts.WaitTime
             });
         }
-        catch(TaskCanceledException ex)
+        catch(Exception)
         {
             return messages;
         }

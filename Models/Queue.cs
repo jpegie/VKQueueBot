@@ -46,7 +46,7 @@ namespace VK_QueueBot.Models
         {
             lock (_editMembersLocker)
             {
-                if (_members.Find(m => m.Id == member.Id) == null)
+                if (_members.Find(m => m.MyEquals(member)) == null)
                 {
                     _members.Add(member);
                     return true;
