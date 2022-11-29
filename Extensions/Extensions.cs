@@ -11,10 +11,19 @@ public static class Extensions
     {
         for (int i = values.Count - 1; i > 0; i--)
         {
-            int k = rand.Next(i + 1);
+            int k = ThreadSafeRandom.ThisThreadsRandom.Next(i + 1);
             T value = values[k];
             values[k] = values[i];
             values[i] = value;
+        }
+    }
+    public static class ThreadSafeRandom
+    {
+        [ThreadStatic] private static Random Local;
+
+        public static Random ThisThreadsRandom
+        {
+            get { return Local ?? (Local = new Random(unchecked(Environment.TickCount * 31 + Thread.CurrentThread.ManagedThreadId))); }
         }
     }
 
