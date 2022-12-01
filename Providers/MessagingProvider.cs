@@ -14,10 +14,11 @@ public static class MessagingProvider
     public static List<Message> GetCommandMessages()
     {
         var messages = new List<Message>();
-        var server = Api.Groups.GetLongPollServer(Consts.BotGroupId);
+        var server = new LongPollServerResponse();
         var pollHistory = new BotsLongPollHistoryResponse();
         try
         {
+            server = Api.Groups.GetLongPollServer(Consts.BotGroupId);
             pollHistory = Api.Groups.GetBotsLongPollHistory(new BotsLongPollHistoryParams
             {
                 Server = server.Server,
