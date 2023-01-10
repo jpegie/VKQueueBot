@@ -9,4 +9,5 @@ public static class Consts
 {
     public static ulong BotGroupId = 217389150;
     public static int WaitTime = 25;
+    public static string CommandFirstSymbol = "/";
 }

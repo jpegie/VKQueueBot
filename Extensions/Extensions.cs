@@ -11,7 +11,7 @@ public static class Extensions
     {
         for (int i = values.Count - 1; i > 0; i--)
         {
-            int k = rand.Next(i + 1);
+            int k = rand.Next(i + 1); //TODO: добавить нормальный шафл из ветки main
             T value = values[k];
             values[k] = values[i];
             values[i] = value;

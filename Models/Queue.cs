@@ -1,4 +1,5 @@
 ﻿using VK_QueueBot.Extensions;
+using VK_QueueBot.Providers;
 using VkNet.Model;
 
 namespace VK_QueueBot.Models;
@@ -11,6 +12,7 @@ public class Queue
     private bool _isClosingTimeSet = false;
     private long? _peer;
     private List<User> _members = new List<User>();
+    public Task? _closingQueueTask = null;
 
     public Queue(long? peer)
     {
@@ -34,6 +36,28 @@ public class Queue
         }
     }
     public List<User> Members => _members;
+    public void InitClosingQueueTaskIfNotStarted()
+    {
+        if (_closingQueueTask == null || _closingQueueTask.Status != TaskStatus.Running)
+        {
+            _closingQueueTask = new Task(() => ClosingQueueMethod());
+            _closingQueueTask.Start();
+        }
+    }
+    /// <summary>
+    /// Решает, когда запустить рандомизацию собранной очереди, работает в таске
+    /// </summary>
+    void ClosingQueueMethod()
+    {
+        while (!IsShuffled && Peer != null)
+        {
+            if (IsClosingTimeSet && DateTime.Now > ClosingTime)
+            {
+                Shuffle();
+                MessagingProvider.SendMessage(Peer, Messages.QueueClosed);
+            }
+        }
+    }
     public void Reset()
     {
         _shuffled = false;

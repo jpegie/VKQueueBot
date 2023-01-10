@@ -17,5 +17,10 @@ public static class Commands
         { Command.MoveToEnd, "/вконец" },
         { Command.PrintQueue, "/очередь" }
     };
+    public static List<Command> GetDefinedCommands => Dict.Keys.ToList();
+    public static Command GetCommandByName(string commandName)
+    {
+        return GetDefinedCommands.FirstOrDefault(k => k.ToString() == commandName, Command.InvalidCommand);
+    }
 }
 

@@ -1,7 +1,10 @@
+using VK_QueueBot.Enums;
+using VK_QueueBot.Models;
+
 namespace VK_QueueBot.Interfaces;
 
 public interface ICommandHandler
 {
-    public long? Peer { get; set; }
-    public bool Handle(long? peer);
+    public Command CommandProp { get; }
+    public bool Handle(Queue q, object []? args = null);
 }

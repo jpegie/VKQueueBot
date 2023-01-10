@@ -17,5 +17,8 @@ public enum Command
     MoveToEnd,
     PrintQueue,
     RemoveQueue,
-    GetClosingTime
+    GetClosingTime,
+    NotDefined,
+    InvalidCommand,
+    QueueIsNotStarted
 }

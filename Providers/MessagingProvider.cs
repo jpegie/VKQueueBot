@@ -38,7 +38,7 @@ public static class MessagingProvider
                 .Where(message =>
                 { 
                     var status = IsMessageValid(message);
-                    message.SetValidationStatus(status);
+                    message.SetValidationStatus(status); //TODO: нужно подумать над этим куском кода и лучше вынести его куда-то, а то класс парсит сообщения + скрытно валидирует их
                     return status == MessageValidationStatus.ValidCommand || status == MessageValidationStatus.InvalidCommand;
                 })
                 .ToList();
@@ -52,7 +52,7 @@ public static class MessagingProvider
         {
             return MessageValidationStatus.NotCommand;
         }
-        if (!message.Text.StartsWith("/"))
+        if (!message.Text.StartsWith(Consts.CommandFirstSymbol))
         {
             return MessageValidationStatus.NotCommand;
         }
